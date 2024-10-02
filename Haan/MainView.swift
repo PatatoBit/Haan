@@ -6,64 +6,73 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainView: View {
-    @State private var groupBalance: Int = 2196
+    @Query var members: [Person]
+    @Query var events: [PaymentEvent]
+    
+    //    @State private var groupBalance: Int =
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Haan").font(.title)
-                Text("\(groupBalance)").font(.largeTitle).bold()
-                
-                Spacer()
-                
-                // Bar chart
+            ZStack {
                 VStack {
+                    Text("Haan").font(.title)
+                    Text("\(members.reduce(0) { $0 + $1.balance} - events.reduce(0) {0 + $1.amount})").font(.largeTitle).bold()
                     
-                }
-                .foregroundStyle(.pink)
-                .scaledToFit()
-                
-                
-                Spacer()
-                
-                // Bottom Navbar
-                HStack {
                     Spacer()
                     
-                    NavigationLink(destination: MemberTestView()) {
-                        Text("สมาชิก").bold()
+                    // Bar chart
+                    VStack {
+                        Image("Logo").resizable().scaledToFit()
+                    }
+                    .foregroundStyle(.pink)
+                    .scaledToFit()
+                    
+                    
+                    Spacer()
+                    
+                    // Bottom Navbar
+                    HStack {
+                        Spacer()
+                        
+                        NavigationLink(destination: MemberView()) {
+                            Text("Members").bold()
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        
+                        NavigationLink(destination: CreateEventView()) {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .frame(width: 75, height: 75)
+                                .foregroundStyle(.green)
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: HistoryView()) {
+                            Text("History").bold()
+                        }
+                        
+                        Spacer()
                     }
                     
-                    
-                    Spacer()
-                    
-                    
-                    NavigationLink(destination: CreateEventView()) {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 75, height: 75)
-                            .foregroundStyle(.green)
-                    }
-
-                                        
-                    Spacer()
-                    
-                    NavigationLink(destination: HistoryTestView()) {
-                        Text("ประวัติ").bold()
-                    }
-
-                    Spacer()
-                }
+                }.frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .top
+                )
                 
-            }.frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity,
-                alignment: .top
-            )
+            } // VStack
             
-        } // VStack
+            Image("Background").resizable().scaledToFit()
+            
+        }
     } // NavigationView
 }
 

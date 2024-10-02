@@ -11,7 +11,9 @@ import SwiftUI
 struct HaanApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
+        .modelContainer(for: [Person.self, PaymentEvent.self])
     }
 }
+
